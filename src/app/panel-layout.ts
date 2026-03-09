@@ -152,6 +152,15 @@ export class PanelLayoutManager implements AppModule {
               <span class="variant-icon">📈</span>
               <span class="variant-label">${t('header.finance')}</span>
             </a>
+            <span class="variant-divider"></span>
+            <a href="${vHref('china', 'https://china.worldmonitor.app')}"
+               class="variant-option ${SITE_VARIANT === 'china' ? 'active' : ''}"
+               data-variant="china"
+               ${vTarget('china')}
+               title="${t('header.china')}${SITE_VARIANT === 'china' ? ` ${t('common.currentVariant')}` : ''}">
+              <span class="variant-icon">🇨🇳</span>
+              <span class="variant-label">${t('header.china')}</span>
+            </a>
             ${SITE_VARIANT === 'commodity' ? `<span class="variant-divider"></span>
             <a href="${vHref('commodity', 'https://commodity.worldmonitor.app')}"
                class="variant-option active"
@@ -169,15 +178,6 @@ export class PanelLayoutManager implements AppModule {
                title="Good News ${t('common.currentVariant')}">
               <span class="variant-icon">☀️</span>
               <span class="variant-label">Good News</span>
-            </a>` : ''}
-            ${SITE_VARIANT === 'china' ? `<span class="variant-divider"></span>
-            <a href="${vHref('china', 'https://china.worldmonitor.app')}"
-               class="variant-option active"
-               data-variant="china"
-               ${vTarget('china')}
-               title="${t('header.china')} ${t('common.currentVariant')}">
-              <span class="variant-icon">🇨🇳</span>
-              <span class="variant-label">${t('header.china')}</span>
             </a>` : ''}`;
       })()}</div>
           <span class="logo">MONITOR</span><span class="logo-mobile">World Monitor</span><span class="version">v${__APP_VERSION__}</span>${BETA_MODE ? '<span class="beta-badge">BETA</span>' : ''}
