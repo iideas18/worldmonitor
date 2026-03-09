@@ -140,6 +140,7 @@
     "filterSources": "筛选数据源...",
     "sourcesEnabled": "已启用{{enabled}}/{{total}}",
     "finance": "金融",
+    "china": "中国",
     "toggleTheme": "切换深色/浅色模式",
     "panelDisplayCaption": "选择要在仪表板上显示的面板",
     "tabGeneral": "常规",
@@ -191,6 +192,7 @@
     "panelCatCentralBanks": "央行与经济",
     "panelCatDeals": "交易与机构",
     "panelCatGulfMena": "海湾与中东",
+    "panelCatChinaMarkets": "中国市场",
     "panelCatTradePolicy": "贸易政策"
   },
   "panels": {
@@ -266,7 +268,12 @@
     "gulfEconomies": "海湾经济",
     "gulfIndices": "海湾指数",
     "gulfCurrencies": "海湾货币",
-    "gulfOil": "海湾石油"
+    "gulfOil": "海湾石油",
+    "chinaMarkets": "中国市场 🇨🇳",
+    "chinaIndices": "大盘指数",
+    "chinaETFs": "中国ETF",
+    "chinaCurrencies": "汇率",
+    "chinaCommodities": "大宗商品"
   },
   "commands": {
     "prefixes": {

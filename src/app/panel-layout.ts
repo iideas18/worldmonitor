@@ -31,6 +31,7 @@ import {
   TradePolicyPanel,
   SupplyChainPanel,
   GulfEconomiesPanel,
+  ChinaMarketsPanel,
   WorldClockPanel,
   AirlineIntelPanel,
   AviationCommandBar,
@@ -163,6 +164,15 @@ export class PanelLayoutManager implements AppModule {
                title="Good News ${t('common.currentVariant')}">
               <span class="variant-icon">☀️</span>
               <span class="variant-label">Good News</span>
+            </a>` : ''}
+            ${SITE_VARIANT === 'china' ? `<span class="variant-divider"></span>
+            <a href="${vHref('china', 'https://china.worldmonitor.app')}"
+               class="variant-option active"
+               data-variant="china"
+               ${vTarget('china')}
+               title="${t('header.china')} ${t('common.currentVariant')}">
+              <span class="variant-icon">🇨🇳</span>
+              <span class="variant-label">${t('header.china')}</span>
             </a>` : ''}`;
       })()}</div>
           <span class="logo">MONITOR</span><span class="logo-mobile">World Monitor</span><span class="version">v${__APP_VERSION__}</span>${BETA_MODE ? '<span class="beta-badge">BETA</span>' : ''}
@@ -231,6 +241,7 @@ export class PanelLayoutManager implements AppModule {
           { key: 'tech', icon: '💻', label: t('header.tech') },
           { key: 'finance', icon: '📈', label: t('header.finance') },
         ];
+        if (SITE_VARIANT === 'china') variants.push({ key: 'china', icon: '🇨🇳', label: t('header.china') });
         if (SITE_VARIANT === 'happy') variants.push({ key: 'happy', icon: '☀️', label: 'Good News' });
         return variants.map(v =>
           `<button class="mobile-menu-item mobile-menu-variant ${v.key === SITE_VARIANT ? 'active' : ''}" data-variant="${v.key}">
@@ -442,7 +453,7 @@ export class PanelLayoutManager implements AppModule {
     this.ctx.map = new MapContainer(mapContainer, {
       zoom: this.ctx.isMobile ? 2.5 : 1.0,
       pan: { x: 0, y: 0 },
-      view: this.ctx.isMobile ? this.ctx.resolvedLocation : 'global',
+      view: SITE_VARIANT === 'china' ? 'asia' : this.ctx.isMobile ? this.ctx.resolvedLocation : 'global',
       layers: this.ctx.mapLayers,
       timeRange: '7d',
     }, preferGlobe);
@@ -591,7 +602,7 @@ export class PanelLayoutManager implements AppModule {
     const economicPanel = new EconomicPanel();
     this.ctx.panels['economic'] = economicPanel;
 
-    if (SITE_VARIANT === 'full' || SITE_VARIANT === 'finance') {
+    if (SITE_VARIANT === 'full' || SITE_VARIANT === 'finance' || SITE_VARIANT === 'china') {
       const tradePolicyPanel = new TradePolicyPanel();
       this.ctx.panels['trade-policy'] = tradePolicyPanel;
 
@@ -748,6 +759,10 @@ export class PanelLayoutManager implements AppModule {
       if (!this.ctx.panels['gulf-economies']) {
         const gulfEconomiesPanel = new GulfEconomiesPanel();
         this.ctx.panels['gulf-economies'] = gulfEconomiesPanel;
+      }
+
+      if (!this.ctx.panels['china-markets']) {
+        this.ctx.panels['china-markets'] = new ChinaMarketsPanel();
       }
 
       const liveNewsPanel = new LiveNewsPanel();

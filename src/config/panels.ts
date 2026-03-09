@@ -47,6 +47,7 @@ const FULL_PANELS: Record<string, PanelConfig> = {
   'satellite-fires': { name: 'Fires', enabled: true, priority: 2 },
   'macro-signals': { name: 'Market Radar', enabled: true, priority: 2 },
   'gulf-economies': { name: 'Gulf Economies', enabled: false, priority: 2 },
+  'china-markets': { name: 'China Markets', enabled: true, priority: 2 },
   'etf-flows': { name: 'BTC ETF Tracker', enabled: true, priority: 2 },
   stablecoins: { name: 'Stablecoins', enabled: true, priority: 2 },
   'ucdp-events': { name: 'UCDP Conflict Events', enabled: true, priority: 2 },
@@ -365,6 +366,7 @@ const FINANCE_PANELS: Record<string, PanelConfig> = {
   'gcc-investments': { name: 'GCC Investments', enabled: true, priority: 2 },
   gccNews: { name: 'GCC Business News', enabled: true, priority: 2 },
   'gulf-economies': { name: 'Gulf Economies', enabled: true, priority: 1 },
+  'china-markets': { name: 'China Markets', enabled: true, priority: 1 },
   polymarket: { name: 'Predictions', enabled: true, priority: 2 },
   'airline-intel': { name: 'Airline Intelligence', enabled: true, priority: 2 },
   'world-clock': { name: 'World Clock', enabled: true, priority: 2 },
@@ -638,6 +640,7 @@ const COMMODITY_PANELS: Record<string, PanelConfig> = {
   'trade-policy': { name: 'Trade Policy', enabled: true, priority: 1 },
   economic: { name: 'Economic Indicators', enabled: true, priority: 1 },
   'gulf-economies': { name: 'Gulf & OPEC Economies', enabled: true, priority: 1 },
+  'china-markets': { name: 'China Markets', enabled: true, priority: 1 },
   'gcc-investments': { name: 'GCC Resource Investments', enabled: true, priority: 2 },
   climate: { name: 'Climate & Weather Impact', enabled: true, priority: 2 },
   'satellite-fires': { name: 'Fires & Operational Risk', enabled: true, priority: 2 },
@@ -763,6 +766,145 @@ const COMMODITY_MOBILE_MAP_LAYERS: MapLayers = {
 };
 
 // ============================================
+// CHINA VARIANT (China Financial Monitor)
+// ============================================
+const CHINA_PANELS: Record<string, PanelConfig> = {
+  map: { name: 'China Markets Map', enabled: true, priority: 1 },
+  'live-news': { name: 'China Headlines', enabled: true, priority: 1 },
+  'live-webcams': { name: 'Asia Live Cams', enabled: true, priority: 1 },
+  insights: { name: 'AI China Insights', enabled: true, priority: 1 },
+  'china-markets': { name: 'China Markets', enabled: true, priority: 1 },
+  markets: { name: 'Global Markets', enabled: true, priority: 1 },
+  'markets-news': { name: 'Markets News', enabled: true, priority: 2 },
+  forex: { name: 'Forex & Currencies', enabled: true, priority: 1 },
+  bonds: { name: 'Fixed Income', enabled: true, priority: 1 },
+  commodities: { name: 'Commodities & Futures', enabled: true, priority: 1 },
+  'commodities-news': { name: 'Commodities News', enabled: true, priority: 2 },
+  crypto: { name: 'Crypto & Digital Assets', enabled: true, priority: 2 },
+  'crypto-news': { name: 'Crypto News', enabled: true, priority: 2 },
+  centralbanks: { name: 'Central Bank Watch', enabled: true, priority: 1 },
+  economic: { name: 'Economic Data', enabled: true, priority: 1 },
+  'trade-policy': { name: 'Trade Policy', enabled: true, priority: 1 },
+  'supply-chain': { name: 'Supply Chain', enabled: true, priority: 1 },
+  'economic-news': { name: 'Economic News', enabled: true, priority: 2 },
+  asia: { name: 'Asia-Pacific News', enabled: true, priority: 1 },
+  heatmap: { name: 'Sector Heatmap', enabled: true, priority: 1 },
+  'macro-signals': { name: 'Market Radar', enabled: true, priority: 1 },
+  ipo: { name: 'IPOs, Earnings & M&A', enabled: true, priority: 2 },
+  derivatives: { name: 'Derivatives & Options', enabled: true, priority: 2 },
+  regulation: { name: 'Financial Regulation', enabled: true, priority: 2 },
+  analysis: { name: 'Market Analysis', enabled: true, priority: 2 },
+  'etf-flows': { name: 'BTC ETF Tracker', enabled: false, priority: 3 },
+  stablecoins: { name: 'Stablecoins', enabled: true, priority: 2 },
+  'gulf-economies': { name: 'Gulf Economies', enabled: false, priority: 3 },
+  polymarket: { name: 'Predictions', enabled: true, priority: 2 },
+  'world-clock': { name: 'World Clock', enabled: true, priority: 2 },
+  monitors: { name: 'My Monitors', enabled: true, priority: 2 },
+};
+
+const CHINA_MAP_LAYERS: MapLayers = {
+  gpsJamming: false,
+  conflicts: false,
+  bases: false,
+  cables: true,
+  pipelines: true,
+  hotspots: false,
+  ais: true,
+  nuclear: false,
+  irradiators: false,
+  sanctions: true,
+  weather: true,
+  economic: true,
+  waterways: true,
+  outages: true,
+  cyberThreats: false,
+  datacenters: false,
+  protests: false,
+  flights: false,
+  military: false,
+  natural: true,
+  spaceports: false,
+  minerals: false,
+  fires: false,
+  ucdpEvents: false,
+  displacement: false,
+  climate: false,
+  startupHubs: false,
+  cloudRegions: false,
+  accelerators: false,
+  techHQs: false,
+  techEvents: false,
+  stockExchanges: true,
+  financialCenters: true,
+  centralBanks: true,
+  commodityHubs: true,
+  gulfInvestments: false,
+  positiveEvents: false,
+  kindness: false,
+  happiness: false,
+  speciesRecovery: false,
+  renewableInstallations: false,
+  tradeRoutes: true,
+  iranAttacks: false,
+  ciiChoropleth: false,
+  dayNight: false,
+  miningSites: false,
+  processingPlants: false,
+  commodityPorts: false,
+};
+
+const CHINA_MOBILE_MAP_LAYERS: MapLayers = {
+  gpsJamming: false,
+  conflicts: false,
+  bases: false,
+  cables: false,
+  pipelines: false,
+  hotspots: false,
+  ais: false,
+  nuclear: false,
+  irradiators: false,
+  sanctions: false,
+  weather: false,
+  economic: true,
+  waterways: false,
+  outages: true,
+  cyberThreats: false,
+  datacenters: false,
+  protests: false,
+  flights: false,
+  military: false,
+  natural: true,
+  spaceports: false,
+  minerals: false,
+  fires: false,
+  ucdpEvents: false,
+  displacement: false,
+  climate: false,
+  startupHubs: false,
+  cloudRegions: false,
+  accelerators: false,
+  techHQs: false,
+  techEvents: false,
+  stockExchanges: true,
+  financialCenters: false,
+  centralBanks: true,
+  commodityHubs: false,
+  gulfInvestments: false,
+  positiveEvents: false,
+  kindness: false,
+  happiness: false,
+  speciesRecovery: false,
+  renewableInstallations: false,
+  tradeRoutes: false,
+  iranAttacks: false,
+  ciiChoropleth: false,
+  dayNight: false,
+  miningSites: false,
+  processingPlants: false,
+  commodityPorts: false,
+};
+
+// ============================================
 // VARIANT-AWARE EXPORTS
 // ============================================
 export const DEFAULT_PANELS = SITE_VARIANT === 'happy' 
@@ -773,7 +915,9 @@ export const DEFAULT_PANELS = SITE_VARIANT === 'happy'
       ? FINANCE_PANELS 
       : SITE_VARIANT === 'commodity'
         ? COMMODITY_PANELS
-        : FULL_PANELS;
+        : SITE_VARIANT === 'china'
+          ? CHINA_PANELS
+          : FULL_PANELS;
 
 export const DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy' 
   ? HAPPY_MAP_LAYERS 
@@ -783,7 +927,9 @@ export const DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy'
       ? FINANCE_MAP_LAYERS 
       : SITE_VARIANT === 'commodity'
         ? COMMODITY_MAP_LAYERS
-        : FULL_MAP_LAYERS;
+        : SITE_VARIANT === 'china'
+          ? CHINA_MAP_LAYERS
+          : FULL_MAP_LAYERS;
 
 export const MOBILE_DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy' 
   ? HAPPY_MOBILE_MAP_LAYERS 
@@ -793,7 +939,9 @@ export const MOBILE_DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy'
       ? FINANCE_MOBILE_MAP_LAYERS 
       : SITE_VARIANT === 'commodity'
         ? COMMODITY_MOBILE_MAP_LAYERS
-        : FULL_MOBILE_MAP_LAYERS;
+        : SITE_VARIANT === 'china'
+          ? CHINA_MOBILE_MAP_LAYERS
+          : FULL_MOBILE_MAP_LAYERS;
 
 /** Maps map-layer toggle keys to their data-freshness source IDs (single source of truth). */
 export const LAYER_TO_SOURCE: Partial<Record<keyof MapLayers, DataSourceId[]>> = {
@@ -836,7 +984,7 @@ export const PANEL_CATEGORY_MAP: Record<string, { labelKey: string; panelKeys: s
   },
   marketsFinance: {
     labelKey: 'header.panelCatMarketsFinance',
-    panelKeys: ['commodities', 'markets', 'economic', 'trade-policy', 'supply-chain', 'finance', 'polymarket', 'macro-signals', 'gulf-economies', 'etf-flows', 'stablecoins', 'crypto', 'heatmap'],
+    panelKeys: ['commodities', 'markets', 'economic', 'trade-policy', 'supply-chain', 'finance', 'polymarket', 'macro-signals', 'gulf-economies', 'china-markets', 'etf-flows', 'stablecoins', 'crypto', 'heatmap'],
     variants: ['full'],
   },
   topical: {
@@ -907,6 +1055,38 @@ export const PANEL_CATEGORY_MAP: Record<string, { labelKey: string; panelKeys: s
     labelKey: 'header.panelCatGulfMena',
     panelKeys: ['gulf-economies', 'gcc-investments', 'gccNews', 'monitors', 'world-clock'],
     variants: ['finance'],
+  },
+
+  // China variant
+  chinaMarkets: {
+    labelKey: 'header.panelCatChinaMarkets',
+    panelKeys: ['china-markets', 'markets', 'markets-news', 'heatmap', 'macro-signals', 'analysis'],
+    variants: ['china'],
+  },
+  chinaFixedIncomeFx: {
+    labelKey: 'header.panelCatFixedIncomeFx',
+    panelKeys: ['forex', 'bonds'],
+    variants: ['china'],
+  },
+  chinaCommodities: {
+    labelKey: 'header.panelCatCommodities',
+    panelKeys: ['commodities', 'commodities-news'],
+    variants: ['china'],
+  },
+  chinaCrypto: {
+    labelKey: 'header.panelCatCryptoDigital',
+    panelKeys: ['crypto', 'crypto-news', 'etf-flows', 'stablecoins'],
+    variants: ['china'],
+  },
+  chinaCentralBanks: {
+    labelKey: 'header.panelCatCentralBanks',
+    panelKeys: ['centralbanks', 'economic', 'trade-policy', 'supply-chain', 'economic-news', 'asia'],
+    variants: ['china'],
+  },
+  chinaDeals: {
+    labelKey: 'header.panelCatDeals',
+    panelKeys: ['ipo', 'derivatives', 'regulation', 'polymarket', 'monitors', 'world-clock'],
+    variants: ['china'],
   },
 };
 
