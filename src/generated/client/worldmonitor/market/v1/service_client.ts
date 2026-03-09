@@ -183,6 +183,7 @@ export interface ChinaQuote {
   price: number;
   change: number;
   sparkline: number[];
+}
 export interface AnalyzeStockRequest {
   symbol: string;
   name: string;
@@ -552,6 +553,29 @@ export class MarketServiceClient {
     }
 
     return await resp.json() as ListGulfQuotesResponse;
+  }
+
+  async listChinaQuotes(req: ListChinaQuotesRequest, options?: MarketServiceCallOptions): Promise<ListChinaQuotesResponse> {
+    let path = "/api/market/v1/list-china-quotes";
+    const url = this.baseURL + path;
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      ...this.defaultHeaders,
+      ...options?.headers,
+    };
+
+    const resp = await this.fetchFn(url, {
+      method: "GET",
+      headers,
+      signal: options?.signal,
+    });
+
+    if (!resp.ok) {
+      return this.handleError(resp);
+    }
+
+    return await resp.json() as ListChinaQuotesResponse;
   }
 
   async analyzeStock(req: AnalyzeStockRequest, options?: MarketServiceCallOptions): Promise<AnalyzeStockResponse> {

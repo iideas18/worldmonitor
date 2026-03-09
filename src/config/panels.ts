@@ -863,6 +863,7 @@ const CHINA_MAP_LAYERS: MapLayers = {
   miningSites: false,
   processingPlants: false,
   commodityPorts: false,
+  satellites: false,
 };
 
 const CHINA_MOBILE_MAP_LAYERS: MapLayers = {
@@ -914,6 +915,7 @@ const CHINA_MOBILE_MAP_LAYERS: MapLayers = {
   miningSites: false,
   processingPlants: false,
   commodityPorts: false,
+  satellites: false,
 };
 
 // ============================================

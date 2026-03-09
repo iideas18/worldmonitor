@@ -716,7 +716,8 @@ export class PanelLayoutManager implements AppModule {
           void p.refresh();
           return p;
         }),
-    );
+      );
+    }
 
     this.createPanel('macro-signals', () => new MacroSignalsPanel());
     this.createPanel('etf-flows', () => new ETFFlowsPanel());
