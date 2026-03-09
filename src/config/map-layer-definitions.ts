@@ -1,7 +1,10 @@
 import type { MapLayers } from '@/types';
+import { isDesktopRuntime } from '@/services/runtime';
 
 export type MapRenderer = 'flat' | 'globe';
 export type MapVariant = 'full' | 'tech' | 'finance' | 'happy' | 'commodity';
+
+const _desktop = isDesktopRuntime();
 
 export interface LayerDefinition {
   key: keyof MapLayers;
@@ -9,6 +12,7 @@ export interface LayerDefinition {
   i18nSuffix: string;
   fallbackLabel: string;
   renderers: MapRenderer[];
+  premium?: 'locked' | 'enhanced';
 }
 
 const def = (
@@ -17,10 +21,11 @@ const def = (
   i18nSuffix: string,
   fallbackLabel: string,
   renderers: MapRenderer[] = ['flat', 'globe'],
-): LayerDefinition => ({ key, icon, i18nSuffix, fallbackLabel, renderers });
+  premium?: 'locked' | 'enhanced',
+): LayerDefinition => ({ key, icon, i18nSuffix, fallbackLabel, renderers, ...(premium && { premium }) });
 
 export const LAYER_REGISTRY: Record<keyof MapLayers, LayerDefinition> = {
-  iranAttacks:              def('iranAttacks',              '&#127919;', 'iranAttacks',              'Iran Attacks'),
+  iranAttacks:              def('iranAttacks',              '&#127919;', 'iranAttacks',              'Iran Attacks', ['flat', 'globe'], _desktop ? 'locked' : undefined),
   hotspots:                 def('hotspots',                 '&#127919;', 'intelHotspots',            'Intel Hotspots'),
   conflicts:                def('conflicts',                '&#9876;',   'conflictZones',            'Conflict Zones'),
 
@@ -28,6 +33,7 @@ export const LAYER_REGISTRY: Record<keyof MapLayers, LayerDefinition> = {
   nuclear:                  def('nuclear',                  '&#9762;',   'nuclearSites',             'Nuclear Sites'),
   irradiators:              def('irradiators',              '&#9888;',   'gammaIrradiators',         'Gamma Irradiators'),
   spaceports:               def('spaceports',               '&#128640;', 'spaceports',               'Spaceports'),
+  satellites:               def('satellites',               '&#128752;', 'satellites',               'Orbital Surveillance', ['globe']),
   cables:                   def('cables',                   '&#128268;', 'underseaCables',           'Undersea Cables'),
   pipelines:                def('pipelines',                '&#128738;', 'pipelines',                'Pipelines'),
   datacenters:              def('datacenters',              '&#128421;', 'aiDataCenters',            'AI Data Centers'),
@@ -47,8 +53,8 @@ export const LAYER_REGISTRY: Record<keyof MapLayers, LayerDefinition> = {
   waterways:                def('waterways',                '&#9875;',   'strategicWaterways',       'Strategic Waterways'),
   economic:                 def('economic',                 '&#128176;', 'economicCenters',          'Economic Centers'),
   minerals:                 def('minerals',                 '&#128142;', 'criticalMinerals',         'Critical Minerals'),
-  gpsJamming:               def('gpsJamming',               '&#128225;', 'gpsJamming',               'GPS Jamming'),
-  ciiChoropleth:            def('ciiChoropleth',            '&#127758;', 'ciiChoropleth',            'CII Instability'),
+  gpsJamming:               def('gpsJamming',               '&#128225;', 'gpsJamming',               'GPS Jamming', ['flat', 'globe'], _desktop ? 'locked' : undefined),
+  ciiChoropleth:            def('ciiChoropleth',            '&#127758;', 'ciiChoropleth',            'CII Instability', ['flat'], _desktop ? 'enhanced' : undefined),
   dayNight:                 def('dayNight',                 '&#127763;', 'dayNight',                 'Day/Night', ['flat']),
   sanctions:                def('sanctions',                '&#128683;', 'sanctions',                'Sanctions', []),
   startupHubs:              def('startupHubs',              '&#128640;', 'startupHubs',              'Startup Hubs'),
@@ -80,7 +86,7 @@ const VARIANT_LAYER_ORDER: Record<MapVariant, Array<keyof MapLayers>> = {
     'ucdpEvents', 'displacement', 'climate', 'weather',
     'outages', 'cyberThreats', 'natural', 'fires',
     'waterways', 'economic', 'minerals', 'gpsJamming',
-    'ciiChoropleth', 'dayNight',
+    'satellites', 'ciiChoropleth', 'dayNight',
   ],
   tech: [
     'startupHubs', 'techHQs', 'accelerators', 'cloudRegions',
@@ -100,8 +106,15 @@ const VARIANT_LAYER_ORDER: Record<MapVariant, Array<keyof MapLayers>> = {
   commodity: [
     'miningSites', 'processingPlants', 'commodityPorts', 'commodityHubs',
     'minerals', 'pipelines', 'waterways', 'tradeRoutes',
+    'ais', 'economic', 'fires', 'climate',
     'natural', 'weather', 'outages', 'dayNight',
   ],
+};
+
+const SVG_ONLY_LAYERS: Partial<Record<MapVariant, Array<keyof MapLayers>>> = {
+  full: ['sanctions'],
+  finance: ['sanctions'],
+  commodity: ['sanctions'],
 };
 
 const I18N_PREFIX = 'components.deckgl.layers.';
@@ -111,6 +124,21 @@ export function getLayersForVariant(variant: MapVariant, renderer: MapRenderer):
   return keys
     .map(k => LAYER_REGISTRY[k])
     .filter(d => d.renderers.includes(renderer));
+}
+
+export function getAllowedLayerKeys(variant: MapVariant): Set<keyof MapLayers> {
+  const keys = new Set(VARIANT_LAYER_ORDER[variant] ?? VARIANT_LAYER_ORDER.full);
+  for (const k of SVG_ONLY_LAYERS[variant] ?? []) keys.add(k);
+  return keys;
+}
+
+export function sanitizeLayersForVariant(layers: MapLayers, variant: MapVariant): MapLayers {
+  const allowed = getAllowedLayerKeys(variant);
+  const sanitized = { ...layers };
+  for (const key of Object.keys(sanitized) as Array<keyof MapLayers>) {
+    if (!allowed.has(key)) sanitized[key] = false;
+  }
+  return sanitized;
 }
 
 export function resolveLayerLabel(def: LayerDefinition, tFn?: (key: string) => string): string {

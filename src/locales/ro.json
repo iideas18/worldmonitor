@@ -175,6 +175,8 @@
     "sourceRegionGulfMena": "Golf și MENA",
     "filterPanels": "Filtrare panouri...",
     "resetLayout": "Resetați aspectul",
+    "resetLayoutTooltip": "Restaurați aranjamentul implicit al panourilor",
+    "unsavedChanges": "Aveți modificări nesalvate ale panourilor. Le abandonați?",
     "panelCatCore": "Principal",
     "panelCatIntelligence": "Informații",
     "panelCatRegionalNews": "Știri regionale",
@@ -375,6 +377,8 @@
       "noResults": "Niciun rezultat",
       "commands": "Comenzi",
       "results": "Rezultate",
+      "seeAllCommands": "Vezi toate comenzile",
+      "hideCommandList": "Înapoi",
       "navigate": "navigați",
       "select": "selectați",
       "close": "închide",
@@ -973,6 +977,10 @@
         "ciiCritical": "Critic (81–100)"
       },
       "layerGuide": "Ghid de straturi",
+      "layerWarningTitle": "Notificare de performanță",
+      "layerWarningBody": "Activarea a mai mult de {{threshold}} straturi poate afecta performanța de randare și rata de cadre.",
+      "layerWarningDismiss": "Nu mai afișa",
+      "layerWarningOk": "Am înțeles",
       "layersTitle": "Straturi",
       "timeAll": "Toate",
       "views": {
@@ -1003,6 +1011,7 @@
         "nuclearSites": "Situri nucleare",
         "gammaIrradiators": "Iradiatoare Gamma",
         "spaceports": "Porturi spațiale",
+        "satellites": "Supraveghere Orbitală",
         "pipelines": "Conducte",
         "militaryActivity": "Activitate militară",
         "shipTraffic": "Trafic naval",
@@ -1734,9 +1743,9 @@
     },
     "gpsJamming": {
       "title": "Interferență GPS/GNSS",
-      "interference": "Interferență",
-      "aircraftAffected": "Aeronava afectată",
-      "aircraftNormal": "Aeronavă Cloudmal",
+      "navPerformance": "Nav Performance",
+      "samples": "ADS-B Samples",
+      "aircraft": "Aircraft",
       "h3Hex": "H3 Hex"
     },
     "flight": {

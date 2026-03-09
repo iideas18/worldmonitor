@@ -498,6 +498,7 @@ export interface PanelConfig {
   name: string;
   enabled: boolean;
   priority?: number;
+  premium?: 'locked' | 'enhanced';
 }
 
 export interface MapLayers {
@@ -552,6 +553,8 @@ export interface MapLayers {
   iranAttacks: boolean;
   // GPS/GNSS interference layer
   gpsJamming: boolean;
+  // Satellite orbital tracking
+  satellites: boolean;
 
   // CII choropleth layer
   ciiChoropleth: boolean;

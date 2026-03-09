@@ -14,7 +14,7 @@ import { getCorsHeaders, isDisallowedOrigin } from './cors';
 // @ts-expect-error — JS module, no declaration file
 import { validateApiKey } from '../api/_api-key.js';
 import { mapErrorToResponse } from './error-mapper';
-import { checkRateLimit } from './_shared/rate-limit';
+import { checkRateLimit, checkEndpointRateLimit, hasEndpointRatePolicy } from './_shared/rate-limit';
 import { drainResponseHeaders } from './_shared/response-headers';
 import type { ServerOptions } from '../src/generated/server/worldmonitor/seismology/v1/service_server';
 
@@ -56,6 +56,10 @@ const RPC_CACHE_TIER: Record<string, CacheTier> = {
   '/api/market/v1/get-sector-summary': 'medium',
   '/api/market/v1/list-gulf-quotes': 'medium',
   '/api/market/v1/list-china-quotes': 'medium',
+  '/api/market/v1/analyze-stock': 'slow',
+  '/api/market/v1/get-stock-analysis-history': 'medium',
+  '/api/market/v1/backtest-stock': 'slow',
+  '/api/market/v1/list-stored-stock-backtests': 'medium',
   '/api/infrastructure/v1/list-service-statuses': 'slow',
   '/api/seismology/v1/list-earthquakes': 'slow',
   '/api/infrastructure/v1/list-internet-outages': 'slow',
@@ -124,6 +128,13 @@ const RPC_CACHE_TIER: Record<string, CacheTier> = {
   '/api/news/v1/summarize-article-cache': 'slow',
 };
 
+const PREMIUM_RPC_PATHS = new Set([
+  '/api/market/v1/analyze-stock',
+  '/api/market/v1/get-stock-analysis-history',
+  '/api/market/v1/backtest-stock',
+  '/api/market/v1/list-stored-stock-backtests',
+]);
+
 /**
  * Creates a Vercel Edge handler for a single domain's routes.
  *
@@ -137,6 +148,8 @@ export function createDomainGateway(
 
   return async function handler(originalRequest: Request): Promise<Response> {
     let request = originalRequest;
+    const rawPathname = new URL(request.url).pathname;
+    const pathname = rawPathname.length > 1 ? rawPathname.replace(/\/+$/, '') : rawPathname;
 
     // Origin check — skip CORS headers for disallowed origins
     if (isDisallowedOrigin(request)) {
@@ -159,7 +172,9 @@ export function createDomainGateway(
     }
 
     // API key validation (origin-aware)
-    const keyCheck = validateApiKey(request);
+    const keyCheck = validateApiKey(request, {
+      forceKey: PREMIUM_RPC_PATHS.has(pathname),
+    });
     if (keyCheck.required && !keyCheck.valid) {
       return new Response(JSON.stringify({ error: keyCheck.error }), {
         status: 401,
@@ -167,9 +182,14 @@ export function createDomainGateway(
       });
     }
 
-    // IP-based rate limiting (60 req/min sliding window)
-    const rateLimitResponse = await checkRateLimit(request, corsHeaders);
-    if (rateLimitResponse) return rateLimitResponse;
+    // IP-based rate limiting — two-phase: endpoint-specific first, then global fallback
+    const endpointRlResponse = await checkEndpointRateLimit(request, pathname, corsHeaders);
+    if (endpointRlResponse) return endpointRlResponse;
+
+    if (!hasEndpointRatePolicy(pathname)) {
+      const rateLimitResponse = await checkRateLimit(request, corsHeaders);
+      if (rateLimitResponse) return rateLimitResponse;
+    }
 
     // Route matching — if POST doesn't match, convert to GET for stale clients
     let matchedHandler = router.match(request);
@@ -234,7 +254,6 @@ export function createDomainGateway(
         mergedHeaders.set('Cache-Control', 'no-store');
         mergedHeaders.set('X-Cache-Tier', 'no-store');
       } else {
-        const pathname = new URL(request.url).pathname;
         const rpcName = pathname.split('/').pop() ?? '';
         const envOverride = process.env[`CACHE_TIER_OVERRIDE_${rpcName.replace(/-/g, '_').toUpperCase()}`] as CacheTier | undefined;
         const tier = (envOverride && envOverride in TIER_HEADERS ? envOverride : null) ?? RPC_CACHE_TIER[pathname] ?? 'medium';

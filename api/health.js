@@ -11,6 +11,8 @@ const BOOTSTRAP_KEYS = {
   commodityQuotes:   'market:commodities-bootstrap:v1',
   cyberThreats:      'cyber:threats-bootstrap:v2',
   techReadiness:     'economic:worldbank-techreadiness:v1',
+  progressData:      'economic:worldbank-progress:v1',
+  renewableEnergy:   'economic:worldbank-renewable:v1',
   positiveGeoEvents: 'positive-events:geo-bootstrap:v1',
   riskScores:        'risk:scores:sebuf:stale:v1',
   naturalEvents:     'natural:events:v1',
@@ -23,6 +25,8 @@ const BOOTSTRAP_KEYS = {
   unrestEvents:      'unrest:events:v1',
   iranEvents:        'conflict:iran-events:v1',
   ucdpEvents:        'conflict:ucdp-events:v1',
+  weatherAlerts:     'weather:alerts:v1',
+  spending:          'economic:spending:v1',
 };
 
 const STANDALONE_KEYS = {
@@ -35,7 +39,7 @@ const STANDALONE_KEYS = {
   chokepoints:           'supply_chain:chokepoints:v2',
   minerals:              'supply_chain:minerals:v2',
   giving:                'giving:summary:v1',
-  gpsjam:                'intelligence:gpsjam:v1',
+  gpsjam:                'intelligence:gpsjam:v2',
   theaterPosture:        'theater-posture:sebuf:stale:v1',
   theaterPostureLive:    'theater-posture:sebuf:v1',
   theaterPostureBackup:  'theater-posture:sebuf:backup:v1',
@@ -47,6 +51,13 @@ const STANDALONE_KEYS = {
   notamClosures:         'aviation:notam:closures:v1',
   positiveEventsLive:    'positive-events:geo:v1',
   cableHealth:           'cable-health-v1',
+  cyberThreatsRpc:       'cyber:threats:v2',
+  militaryBases:         'military:bases:active',
+  militaryFlights:       'military:flights:v1',
+  militaryFlightsStale:  'military:flights:stale:v1',
+  temporalAnomalies:     'temporal:anomalies:v1',
+  displacement:          `displacement:summary:v1:${new Date().getFullYear()}`,
+  satellites:            'intelligence:satellites:tle:v1',
 };
 
 const SEED_META = {
@@ -61,7 +72,7 @@ const SEED_META = {
   gulfQuotes:       { key: 'seed-meta:market:gulf-quotes',      maxStaleMin: 30 },
   stablecoinMarkets:{ key: 'seed-meta:market:stablecoins',      maxStaleMin: 60 },
   naturalEvents:    { key: 'seed-meta:natural:events',          maxStaleMin: 120 },
-  flightDelays:     { key: 'seed-meta:aviation:faa',            maxStaleMin: 30 },
+  flightDelays:     { key: 'seed-meta:aviation:faa',            maxStaleMin: 90 },
   predictions:      { key: 'seed-meta:prediction:markets',      maxStaleMin: 15 },
   insights:         { key: 'seed-meta:news:insights',           maxStaleMin: 30 },
   marketQuotes:     { key: 'seed-meta:market:stocks',         maxStaleMin: 30 },
@@ -78,6 +89,18 @@ const SEED_META = {
   giving:           { key: 'seed-meta:giving:summary',            maxStaleMin: 10080 },
   gpsjam:           { key: 'seed-meta:intelligence:gpsjam',       maxStaleMin: 720 },
   cableHealth:      { key: 'seed-meta:cable-health',              maxStaleMin: 60 },
+  positiveGeoEvents:{ key: 'seed-meta:positive-events:geo',       maxStaleMin: 60 },
+  riskScores:       { key: 'seed-meta:risk:scores',               maxStaleMin: 30 },
+  iranEvents:       { key: 'seed-meta:conflict:iran-events',      maxStaleMin: 10080 },
+  ucdpEvents:       { key: 'seed-meta:conflict:ucdp-events',      maxStaleMin: 420 },
+  militaryFlights:  { key: 'seed-meta:military:flights',           maxStaleMin: 15 },
+  satellites:       { key: 'seed-meta:intelligence:satellites',    maxStaleMin: 180 },
+  weatherAlerts:    { key: 'seed-meta:weather:alerts',             maxStaleMin: 30 },
+  spending:         { key: 'seed-meta:economic:spending',          maxStaleMin: 120 },
+  sectors:          { key: 'seed-meta:market:sectors',             maxStaleMin: 30 },
+  techReadiness:    { key: 'seed-meta:economic:worldbank-techreadiness:v1', maxStaleMin: 10080 },
+  progressData:     { key: 'seed-meta:economic:worldbank-progress:v1',     maxStaleMin: 10080 },
+  renewableEnergy:  { key: 'seed-meta:economic:worldbank-renewable:v1',    maxStaleMin: 10080 },
 };
 
 // Standalone keys that are populated on-demand by RPC handlers (not seeds).
@@ -86,7 +109,8 @@ const ON_DEMAND_KEYS = new Set([
   'riskScoresLive',
   'usniFleet', 'usniFleetStale', 'positiveEventsLive', 'cableHealth',
   'bisPolicy', 'bisExchange', 'bisCredit',
-  'serviceStatuses', 'macroSignals', 'shippingRates', 'chokepoints', 'minerals', 'giving',
+  'macroSignals', 'shippingRates', 'chokepoints', 'minerals', 'giving',
+  'cyberThreatsRpc', 'militaryBases', 'temporalAnomalies', 'displacement',
 ]);
 
 // Cascade groups: if any key in the group has data, all empty siblings are OK.
@@ -95,6 +119,8 @@ const CASCADE_GROUPS = {
   theaterPosture:       ['theaterPosture', 'theaterPostureLive', 'theaterPostureBackup'],
   theaterPostureLive:   ['theaterPosture', 'theaterPostureLive', 'theaterPostureBackup'],
   theaterPostureBackup: ['theaterPosture', 'theaterPostureLive', 'theaterPostureBackup'],
+  militaryFlights:      ['militaryFlights', 'militaryFlightsStale'],
+  militaryFlightsStale: ['militaryFlights', 'militaryFlightsStale'],
 };
 
 const NEG_SENTINEL = '__WM_NEG__';
@@ -124,11 +150,11 @@ function dataSize(parsed) {
   if (Array.isArray(parsed)) return parsed.length;
   if (typeof parsed === 'object') {
     for (const k of ['quotes', 'hexes', 'events', 'stablecoins', 'fires', 'threats',
-                      'earthquakes', 'outages', 'delays', 'items', 'predictions',
+                      'earthquakes', 'outages', 'delays', 'items', 'predictions', 'alerts', 'awards',
                       'papers', 'repos', 'articles', 'signals', 'rates', 'countries',
-                      'chokepoints', 'minerals', 'anomalies', 'flows', 'bases',
+                      'chokepoints', 'minerals', 'anomalies', 'flows', 'bases', 'flights',
                       'theaters', 'fleets', 'warnings', 'closures', 'cables',
-                      'airports', 'categories', 'regions', 'entries']) {
+                      'airports', 'categories', 'regions', 'entries', 'satellites']) {
       if (Array.isArray(parsed[k])) return parsed[k].length;
     }
     return Object.keys(parsed).length;

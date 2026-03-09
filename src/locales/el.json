@@ -175,6 +175,8 @@
     "sourceRegionGulfMena": "Κόλπος & ΜΕΝΑ",
     "filterPanels": "Φιλτράρισμα πάνελ...",
     "resetLayout": "Επαναφορά διάταξης",
+    "resetLayoutTooltip": "Επαναφορά προεπιλεγμένης διάταξης πάνελ",
+    "unsavedChanges": "Έχετε μη αποθηκευμένες αλλαγές πάνελ. Να απορριφθούν;",
     "panelCatCore": "Βασικά",
     "panelCatIntelligence": "Πληροφορίες",
     "panelCatRegionalNews": "Περιφερειακά Νέα",
@@ -375,6 +377,8 @@
       "noResults": "Κανένα αποτέλεσμα",
       "commands": "Εντολές",
       "results": "Αποτελέσματα",
+      "seeAllCommands": "Εμφάνιση όλων των εντολών",
+      "hideCommandList": "Πίσω",
       "navigate": "πλοήγηση",
       "select": "επιλογή",
       "close": "κλείσιμο",
@@ -973,6 +977,10 @@
         "ciiCritical": "Κρίσιμο (81–100)"
       },
       "layerGuide": "Οδηγός Επιπέδων",
+      "layerWarningTitle": "Σημείωση απόδοσης",
+      "layerWarningBody": "Η ενεργοποίηση περισσότερων από {{threshold}} επιπέδων μπορεί να επηρεάσει την απόδοση απεικόνισης και τον ρυθμό καρέ.",
+      "layerWarningDismiss": "Να μην εμφανιστεί ξανά",
+      "layerWarningOk": "Κατάλαβα",
       "layersTitle": "Επίπεδα",
       "timeAll": "Όλα",
       "views": {
@@ -1003,6 +1011,7 @@
         "nuclearSites": "Πυρηνικές Εγκαταστάσεις",
         "gammaIrradiators": "Ακτινοβολητές Γάμμα",
         "spaceports": "Διαστημοδρόμια",
+        "satellites": "Τροχιακή Επιτήρηση",
         "pipelines": "Αγωγοί",
         "militaryActivity": "Στρατιωτική Δραστηριότητα",
         "shipTraffic": "Ναυτική Κυκλοφορία",
@@ -1734,9 +1743,9 @@
     },
     "gpsJamming": {
       "title": "Παρεμβολή GPS/GNSS",
-      "interference": "Παρεμβολή",
-      "aircraftAffected": "Επηρεασμένα αεροσκάφη",
-      "aircraftNormal": "Κανονικά αεροσκάφη",
+      "navPerformance": "Nav Performance",
+      "samples": "ADS-B Samples",
+      "aircraft": "Aircraft",
       "h3Hex": "H3 Hex"
     },
     "flight": {

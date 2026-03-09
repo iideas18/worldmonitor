@@ -175,6 +175,8 @@
     "sourceRegionGulfMena": "Körfez & MENA",
     "filterPanels": "Panelleri filtrele...",
     "resetLayout": "Düzeni sıfırla",
+    "resetLayoutTooltip": "Varsayılan panel düzenini geri yükle",
+    "unsavedChanges": "Kaydedilmemiş panel değişiklikleriniz var. Vazgeçilsin mi?",
     "panelCatCore": "Temel",
     "panelCatIntelligence": "İstihbarat",
     "panelCatRegionalNews": "Bölgesel Haberler",
@@ -375,6 +377,8 @@
       "noResults": "Sonuc bulunamadi",
       "commands": "Komutlar",
       "results": "Sonuçlar",
+      "seeAllCommands": "Tüm komutları gör",
+      "hideCommandList": "Geri",
       "navigate": "gezin",
       "select": "sec",
       "close": "kapat",
@@ -973,6 +977,10 @@
         "ciiCritical": "Kritik (81–100)"
       },
       "layerGuide": "Katman Rehberi",
+      "layerWarningTitle": "Performans bildirimi",
+      "layerWarningBody": "{{threshold}} adetten fazla katmanı etkinleştirmek, işleme performansını ve kare hızını etkileyebilir.",
+      "layerWarningDismiss": "Bir daha gösterme",
+      "layerWarningOk": "Anladım",
       "layersTitle": "Katmanlar",
       "timeAll": "Tumu",
       "views": {
@@ -1003,6 +1011,7 @@
         "nuclearSites": "Nukleer Tesisler",
         "gammaIrradiators": "Gama Isinlama Tesisleri",
         "spaceports": "Uzay Ussu",
+        "satellites": "Yörünge Gözetimi",
         "pipelines": "Boru Hatlari",
         "militaryActivity": "Askeri Faaliyet",
         "shipTraffic": "Gemi Trafigi",
@@ -1734,9 +1743,9 @@
     },
     "gpsJamming": {
       "title": "GPS/GNSS Paraziti",
-      "interference": "Parazit",
-      "aircraftAffected": "Etkilenen Uçaklar",
-      "aircraftNormal": "Normal Uçaklar",
+      "navPerformance": "Nav Performance",
+      "samples": "ADS-B Samples",
+      "aircraft": "Aircraft",
       "h3Hex": "H3 Hex"
     },
     "flight": {
