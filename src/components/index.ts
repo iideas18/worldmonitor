@@ -49,6 +49,8 @@ export * from './OrefSirensPanel';
 export * from './TelegramIntelPanel';
 export * from './BreakingNewsBanner';
 export * from './GulfEconomiesPanel';
+export * from './ChinaMarketsPanel';
+export * from './ChinaResourcesPanel';
 export * from './WorldClockPanel';
 export { AirlineIntelPanel } from './AirlineIntelPanel';
 export { AviationCommandBar } from './AviationCommandBar';

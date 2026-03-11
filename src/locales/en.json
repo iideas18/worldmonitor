@@ -141,6 +141,7 @@
     "sourcesEnabled": "{{enabled}}/{{total}} enabled",
     "finance": "FINANCE",
     "commodity": "COMMODITY",
+    "china": "CHINA",
     "toggleTheme": "Toggle dark/light mode",
     "panelDisplayCaption": "Choose which panels to show on the dashboard",
     "tabGeneral": "General",
@@ -194,6 +195,7 @@
     "panelCatCentralBanks": "Central Banks & Econ",
     "panelCatDeals": "Deals & Institutional",
     "panelCatGulfMena": "Gulf & MENA",
+    "panelCatChinaMarkets": "China Markets",
     "panelCatTradePolicy": "Trade Policy"
   },
   "panels": {
@@ -270,6 +272,12 @@
     "gulfIndices": "Gulf Indices",
     "gulfCurrencies": "Gulf Currencies",
     "gulfOil": "Gulf Oil",
+    "chinaMarkets": "China Markets 🇨🇳",
+    "chinaResources": "China Resources",
+    "chinaIndices": "Indices",
+    "chinaETFs": "China ETFs",
+    "chinaCurrencies": "Currencies",
+    "chinaCommodities": "Commodities",
     "airlineIntel": "✈️ Airline Intelligence"
   },
   "commands": {

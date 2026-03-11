@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package worldmonitor.market.v1;
+
+// ChinaQuote represents a China market quote (index, currency, commodity, or sector ETF).
+message ChinaQuote {
+  string symbol = 1;
+  string name = 2;
+  string flag = 3;
+  string category = 4;
+  string type = 5;
+  double price = 6;
+  double change = 7;
+  repeated double sparkline = 8;
+}
+
+message ListChinaQuotesRequest {}
+
+message ListChinaQuotesResponse {
+  repeated ChinaQuote quotes = 1;
+  bool rate_limited = 2;
+}

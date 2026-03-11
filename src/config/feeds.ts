@@ -1166,16 +1166,55 @@ const COMMODITY_FEEDS: Record<string, Feed[]> = {
   ],
 };
 
+// China variant feeds — finance-first, with China/Asia news prioritized
+const CHINA_FEEDS: Record<string, Feed[]> = {
+  ...FINANCE_FEEDS,
+  asia: [
+    { name: 'South China Morning Post', url: railwayRss('https://www.scmp.com/rss/91/feed/') },
+    { name: 'Caixin Global', url: rss('https://news.google.com/rss/search?q=site:caixinglobal.com+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Xinhua', url: rss('https://news.google.com/rss/search?q=site:xinhuanet.com+OR+Xinhua+when:1d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'China Daily', url: rss('https://news.google.com/rss/search?q=site:chinadaily.com.cn+when:1d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Global Times Economy', url: rss('https://news.google.com/rss/search?q=site:globaltimes.cn+economy+OR+finance+OR+market+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'CNA Asia', url: rss('https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml') },
+    { name: 'Nikkei Asia', url: rss('https://news.google.com/rss/search?q=site:asia.nikkei.com+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Reuters China', url: rss('https://news.google.com/rss/search?q=site:reuters.com+China+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'The Diplomat', url: rss('https://thediplomat.com/feed/') },
+    { name: 'Hong Kong Free Press', url: rss('https://hongkongfp.com/feed/') },
+    { name: 'MIIT (China)', url: rss('https://news.google.com/rss/search?q=site:miit.gov.cn+when:7d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans'), lang: 'zh' },
+    { name: 'MOFCOM (China)', url: rss('https://news.google.com/rss/search?q=site:mofcom.gov.cn+when:7d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans'), lang: 'zh' },
+  ],
+  markets: [
+    { name: 'China Stock Market', url: rss('https://news.google.com/rss/search?q=(CSI+300+OR+Shanghai+Composite+OR+Hang+Seng+OR+A-shares+OR+H-shares)+when:1d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'SCMP Markets', url: rss('https://news.google.com/rss/search?q=site:scmp.com+(markets+OR+stocks+OR+finance)+when:1d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Caixin Markets', url: rss('https://news.google.com/rss/search?q=site:caixinglobal.com+(markets+OR+stocks)+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'CLS (财联社)', url: rss('https://news.google.com/rss/search?q=site:cls.cn+when:1d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans'), lang: 'zh' },
+    ...(FINANCE_FEEDS['markets'] ?? []),
+  ],
+  centralbanks: [
+    { name: 'PBoC Watch', url: rss('https://news.google.com/rss/search?q=("People%27s+Bank+of+China"+OR+PBoC+OR+PBOC)+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'China Monetary Policy', url: rss('https://news.google.com/rss/search?q=(China+"monetary+policy"+OR+"interest+rate"+OR+RRR+OR+"reserve+ratio")+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    ...(FINANCE_FEEDS['centralbanks'] ?? []),
+  ],
+  economic: [
+    { name: 'China GDP & Growth', url: rss('https://news.google.com/rss/search?q=(China+GDP+OR+"China+growth"+OR+"China+economy"+OR+"China+PMI")+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'China Trade & Tariffs', url: rss('https://news.google.com/rss/search?q=(China+tariff+OR+"China+trade"+OR+"US+China+trade"+OR+"China+exports")+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'China Inflation & CPI', url: rss('https://news.google.com/rss/search?q=(China+CPI+OR+China+inflation+OR+"China+deflation"+OR+"China+consumer+prices")+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    ...(FINANCE_FEEDS['economic'] ?? []),
+  ],
+};
+
 // Variant-aware exports
 export const FEEDS = SITE_VARIANT === 'tech'
   ? TECH_FEEDS
   : SITE_VARIANT === 'finance'
     ? FINANCE_FEEDS
-    : SITE_VARIANT === 'happy'
-      ? HAPPY_FEEDS
-      : SITE_VARIANT === 'commodity'
-        ? COMMODITY_FEEDS
-        : FULL_FEEDS;
+    : SITE_VARIANT === 'china'
+      ? CHINA_FEEDS
+      : SITE_VARIANT === 'happy'
+        ? HAPPY_FEEDS
+        : SITE_VARIANT === 'commodity'
+          ? COMMODITY_FEEDS
+          : FULL_FEEDS;
 
 export const SOURCE_REGION_MAP: Record<string, { labelKey: string; feedKeys: string[] }> = {
   // Full (geopolitical) variant regions

@@ -166,6 +166,25 @@ export interface GulfQuote {
   sparkline: number[];
 }
 
+export interface ListChinaQuotesRequest {
+}
+
+export interface ListChinaQuotesResponse {
+  quotes: ChinaQuote[];
+  rateLimited: boolean;
+}
+
+export interface ChinaQuote {
+  symbol: string;
+  name: string;
+  flag: string;
+  category: string;
+  type: string;
+  price: number;
+  change: number;
+  sparkline: number[];
+}
+
 export interface AnalyzeStockRequest {
   symbol: string;
   name: string;
@@ -346,6 +365,7 @@ export interface MarketServiceHandler {
   listEtfFlows(ctx: ServerContext, req: ListEtfFlowsRequest): Promise<ListEtfFlowsResponse>;
   getCountryStockIndex(ctx: ServerContext, req: GetCountryStockIndexRequest): Promise<GetCountryStockIndexResponse>;
   listGulfQuotes(ctx: ServerContext, req: ListGulfQuotesRequest): Promise<ListGulfQuotesResponse>;
+  listChinaQuotes(ctx: ServerContext, req: ListChinaQuotesRequest): Promise<ListChinaQuotesResponse>;
   analyzeStock(ctx: ServerContext, req: AnalyzeStockRequest): Promise<AnalyzeStockResponse>;
   getStockAnalysisHistory(ctx: ServerContext, req: GetStockAnalysisHistoryRequest): Promise<GetStockAnalysisHistoryResponse>;
   backtestStock(ctx: ServerContext, req: BacktestStockRequest): Promise<BacktestStockResponse>;

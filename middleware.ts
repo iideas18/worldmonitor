@@ -14,6 +14,7 @@ const SOCIAL_IMAGE_UA =
 const VARIANT_HOST_MAP: Record<string, string> = {
   'tech.worldmonitor.app': 'tech',
   'finance.worldmonitor.app': 'finance',
+  'china.worldmonitor.app': 'china',
   'happy.worldmonitor.app': 'happy',
 };
 
@@ -30,6 +31,12 @@ const VARIANT_OG: Record<string, { title: string; description: string; image: st
     description: 'Real-time finance and trading dashboard tracking global markets, stock exchanges, central banks, commodities, forex, crypto, and economic indicators worldwide.',
     image: 'https://finance.worldmonitor.app/favico/finance/og-image.png',
     url: 'https://finance.worldmonitor.app/',
+  },
+  china: {
+    title: 'China Monitor - Real-Time China Markets & Policy Dashboard',
+    description: 'China-first dashboard for markets, policy, trade, supply chains, PBOC signals, and major Asia-Pacific developments.',
+    image: 'https://worldmonitor.app/favico/og-image.png',
+    url: 'https://china.worldmonitor.app/',
   },
   happy: {
     title: 'Happy Monitor - Good News & Global Progress',

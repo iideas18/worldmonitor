@@ -33,6 +33,8 @@ import {
   TradePolicyPanel,
   SupplyChainPanel,
   GulfEconomiesPanel,
+  ChinaMarketsPanel,
+  ChinaResourcesPanel,
   WorldClockPanel,
   AirlineIntelPanel,
   AviationCommandBar,
@@ -151,6 +153,15 @@ export class PanelLayoutManager implements AppModule {
               <span class="variant-icon">📈</span>
               <span class="variant-label">${t('header.finance')}</span>
             </a>
+            <span class="variant-divider"></span>
+            <a href="${vHref('china', 'https://china.worldmonitor.app')}"
+               class="variant-option ${SITE_VARIANT === 'china' ? 'active' : ''}"
+               data-variant="china"
+               ${vTarget('china')}
+               title="${t('header.china')}${SITE_VARIANT === 'china' ? ` ${t('common.currentVariant')}` : ''}">
+              <span class="variant-icon">🇨🇳</span>
+              <span class="variant-label">${t('header.china')}</span>
+            </a>
             ${SITE_VARIANT === 'commodity' ? `<span class="variant-divider"></span>
             <a href="${vHref('commodity', 'https://commodity.worldmonitor.app')}"
                class="variant-option active"
@@ -236,6 +247,7 @@ export class PanelLayoutManager implements AppModule {
           { key: 'tech', icon: '💻', label: t('header.tech') },
           { key: 'finance', icon: '📈', label: t('header.finance') },
         ];
+        if (SITE_VARIANT === 'china') variants.push({ key: 'china', icon: '🇨🇳', label: t('header.china') });
         if (SITE_VARIANT === 'happy') variants.push({ key: 'happy', icon: '☀️', label: 'Good News' });
         return variants.map(v =>
           `<button class="mobile-menu-item mobile-menu-variant ${v.key === SITE_VARIANT ? 'active' : ''}" data-variant="${v.key}">
@@ -468,7 +480,7 @@ export class PanelLayoutManager implements AppModule {
     this.ctx.map = new MapContainer(mapContainer, {
       zoom: this.ctx.isMobile ? 2.5 : 1.0,
       pan: { x: 0, y: 0 },
-      view: this.ctx.isMobile ? this.ctx.resolvedLocation : 'global',
+      view: SITE_VARIANT === 'china' ? 'asia' : this.ctx.isMobile ? this.ctx.resolvedLocation : 'global',
       layers: this.ctx.mapLayers,
       timeRange: '7d',
     }, preferGlobe);
@@ -679,28 +691,38 @@ export class PanelLayoutManager implements AppModule {
       this.aviationCommandBar = new AviationCommandBar();
     }
 
-    if (this.shouldCreatePanel('gulf-economies') && !this.ctx.panels['gulf-economies']) {
-      this.ctx.panels['gulf-economies'] = new GulfEconomiesPanel();
+    if (SITE_VARIANT !== 'happy') {
+      if (!this.ctx.panels['china-markets']) {
+        this.ctx.panels['china-markets'] = new ChinaMarketsPanel();
+      }
+
+      if (this.shouldCreatePanel('china-resources') && !this.ctx.panels['china-resources']) {
+        this.ctx.panels['china-resources'] = new ChinaResourcesPanel();
+      }
+
+      if (this.shouldCreatePanel('gulf-economies') && !this.ctx.panels['gulf-economies']) {
+        this.ctx.panels['gulf-economies'] = new GulfEconomiesPanel();
+      }
+
+      if (this.shouldCreatePanel('live-news')) {
+        this.ctx.panels['live-news'] = new LiveNewsPanel();
+      }
+
+      if (this.shouldCreatePanel('live-webcams')) {
+        this.ctx.panels['live-webcams'] = new LiveWebcamsPanel();
+      }
+
+      this.createPanel('events', () => new TechEventsPanel('events', () => this.ctx.allNews));
+      this.createPanel('service-status', () => new ServiceStatusPanel());
+
+      this.lazyPanel('tech-readiness', () =>
+        import('@/components/TechReadinessPanel').then(m => {
+          const p = new m.TechReadinessPanel();
+          void p.refresh();
+          return p;
+        }),
+      );
     }
-
-    if (this.shouldCreatePanel('live-news')) {
-      this.ctx.panels['live-news'] = new LiveNewsPanel();
-    }
-
-    if (this.shouldCreatePanel('live-webcams')) {
-      this.ctx.panels['live-webcams'] = new LiveWebcamsPanel();
-    }
-
-    this.createPanel('events', () => new TechEventsPanel('events', () => this.ctx.allNews));
-    this.createPanel('service-status', () => new ServiceStatusPanel());
-
-    this.lazyPanel('tech-readiness', () =>
-      import('@/components/TechReadinessPanel').then(m => {
-        const p = new m.TechReadinessPanel();
-        void p.refresh();
-        return p;
-      }),
-    );
 
     this.createPanel('macro-signals', () => new MacroSignalsPanel());
     this.createPanel('etf-flows', () => new ETFFlowsPanel());

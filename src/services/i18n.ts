@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { SITE_VARIANT } from '@/config/variant';
 
 // English is always needed as fallback — bundle it eagerly.
 import enTranslation from '../locales/en.json';
@@ -10,6 +11,7 @@ type TranslationDictionary = Record<string, unknown>;
 
 const SUPPORTED_LANGUAGE_SET = new Set<SupportedLanguage>(SUPPORTED_LANGUAGES);
 const loadedLanguages = new Set<SupportedLanguage>();
+const I18N_STORAGE_KEY = 'i18nextLng';
 
 // Lazy-load only the locale that's actually needed — all others stay out of the bundle.
 const localeModules = import.meta.glob<TranslationDictionary>(
@@ -34,6 +36,15 @@ function applyDocumentDirection(lang: string): void {
     document.documentElement.setAttribute('dir', 'rtl');
   } else {
     document.documentElement.removeAttribute('dir');
+  }
+}
+
+function getStoredLanguagePreference(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem(I18N_STORAGE_KEY);
+  } catch {
+    return null;
   }
 }
 
@@ -92,7 +103,13 @@ export async function initI18n(): Promise<void> {
     });
 
   const detectedLanguage = await ensureLanguageLoaded(i18next.language || 'en');
-  if (detectedLanguage !== 'en') {
+  const storedLanguagePreference = getStoredLanguagePreference();
+  const variantDefaultLanguage = SITE_VARIANT === 'china' ? 'zh' : 'en';
+
+  if (!storedLanguagePreference && variantDefaultLanguage !== detectedLanguage) {
+    const normalizedVariantDefault = await ensureLanguageLoaded(variantDefaultLanguage);
+    await i18next.changeLanguage(normalizedVariantDefault);
+  } else if (detectedLanguage !== 'en') {
     // Re-trigger translation resolution now that the detected bundle is loaded.
     await i18next.changeLanguage(detectedLanguage);
   }
