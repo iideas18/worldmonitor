@@ -34,6 +34,7 @@ import {
   SupplyChainPanel,
   GulfEconomiesPanel,
   ChinaMarketsPanel,
+  ChinaResourcesPanel,
   WorldClockPanel,
   AirlineIntelPanel,
   AviationCommandBar,
@@ -693,6 +694,10 @@ export class PanelLayoutManager implements AppModule {
     if (SITE_VARIANT !== 'happy') {
       if (!this.ctx.panels['china-markets']) {
         this.ctx.panels['china-markets'] = new ChinaMarketsPanel();
+      }
+
+      if (this.shouldCreatePanel('china-resources') && !this.ctx.panels['china-resources']) {
+        this.ctx.panels['china-resources'] = new ChinaResourcesPanel();
       }
 
       if (this.shouldCreatePanel('gulf-economies') && !this.ctx.panels['gulf-economies']) {

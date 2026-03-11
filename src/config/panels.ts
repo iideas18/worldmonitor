@@ -783,9 +783,10 @@ const COMMODITY_MOBILE_MAP_LAYERS: MapLayers = {
 const CHINA_PANELS: Record<string, PanelConfig> = {
   map: { name: 'China Markets Map', enabled: true, priority: 1 },
   'live-news': { name: 'China Headlines', enabled: true, priority: 1 },
-  'live-webcams': { name: 'Asia Live Cams', enabled: true, priority: 1 },
+  'live-webcams': { name: 'Asia Live Cams', enabled: false, priority: 1 },
   insights: { name: 'AI China Insights', enabled: true, priority: 1 },
   'china-markets': { name: 'China Markets', enabled: true, priority: 1 },
+  'china-resources': { name: 'China Resources', enabled: true, priority: 2 },
   markets: { name: 'Global Markets', enabled: true, priority: 1 },
   'markets-news': { name: 'Markets News', enabled: true, priority: 2 },
   forex: { name: 'Forex & Currencies', enabled: true, priority: 1 },
@@ -1074,7 +1075,7 @@ export const PANEL_CATEGORY_MAP: Record<string, { labelKey: string; panelKeys: s
   // China variant
   chinaMarkets: {
     labelKey: 'header.panelCatChinaMarkets',
-    panelKeys: ['china-markets', 'markets', 'markets-news', 'heatmap', 'macro-signals', 'analysis'],
+    panelKeys: ['china-markets', 'china-resources', 'markets', 'markets-news', 'heatmap', 'macro-signals', 'analysis'],
     variants: ['china'],
   },
   chinaFixedIncomeFx: {

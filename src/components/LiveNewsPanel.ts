@@ -84,6 +84,7 @@ const TECH_LIVE_CHANNELS: LiveChannel[] = [
 // China variant: Asia-Pacific financial news channels
 const CHINA_LIVE_CHANNELS: LiveChannel[] = [
   { id: 'cgtn', name: 'CGTN', handle: '@CGTNOfficial', fallbackVideoId: 'xOr-FwBZXhg', useFallbackOnly: true },
+  { id: 'cctv-13', name: 'CCTV-13 News', handle: '@CCTVNews', fallbackVideoId: 'bILkfTHzRuw', useFallbackOnly: true },
   { id: 'cna-asia', name: 'CNA', handle: '@channelnewsasia', fallbackVideoId: 'XWq5kBlakcQ' },
   { id: 'nhk-world', name: 'NHK World', handle: '@NHKWORLDJAPAN', fallbackVideoId: 'f0lYfG_vY_U' },
   { id: 'bloomberg', name: 'Bloomberg', handle: '@markets', fallbackVideoId: 'iEpJwprxDdk' },
@@ -140,6 +141,7 @@ export const OPTIONAL_LIVE_CHANNELS: LiveChannel[] = [
   { id: 'ndtv', name: 'NDTV 24x7', handle: '@NDTV' },
   { id: 'cna-asia', name: 'CNA (NewsAsia)', handle: '@channelnewsasia', fallbackVideoId: 'XWq5kBlakcQ' },
   { id: 'cgtn', name: 'CGTN', handle: '@CGTNOfficial', fallbackVideoId: 'xOr-FwBZXhg', useFallbackOnly: true },
+  { id: 'cctv-13', name: 'CCTV-13 News', handle: '@CCTVNews', fallbackVideoId: 'bILkfTHzRuw', useFallbackOnly: true },
   { id: 'nhk-world', name: 'NHK World Japan', handle: '@NHKWORLDJAPAN', fallbackVideoId: 'f0lYfG_vY_U' },
   { id: 'arirang-news', name: 'Arirang News', handle: '@ArirangCoKrArirangNEWS' },
   { id: 'india-today', name: 'India Today', handle: '@indiatoday', fallbackVideoId: 'sYZtOFzM78M' },
@@ -182,7 +184,7 @@ const _REGION_ENTRIES: { key: string; labelKey: string; channelIds: string[] }[]
   { key: 'na', labelKey: 'components.liveNews.regionNorthAmerica', channelIds: ['bloomberg', 'cnbc', 'yahoo', 'cnn', 'fox-news', 'newsmax', 'abc-news', 'cbs-news', 'nbc-news', 'cbc-news', 'nasa'] },
   { key: 'eu', labelKey: 'components.liveNews.regionEurope', channelIds: ['sky', 'euronews', 'dw', 'france24', 'bbc-news', 'france24-en', 'welt', 'rtve', 'trt-haber', 'ntv-turkey', 'cnn-turk', 'tv-rain', 'rt', 'tvp-info', 'telewizja-republika', 'tagesschau24', 'euronews-fr', 'france24-fr', 'france-info', 'bfmtv', 'tv5monde-info', 'nrk1', 'aljazeera-balkans'] },
   { key: 'latam', labelKey: 'components.liveNews.regionLatinAmerica', channelIds: ['cnn-brasil', 'jovem-pan', 'record-news', 'band-jornalismo', 'tn-argentina', 'c5n', 'milenio', 'noticias-caracol', 'ntn24', 't13'] },
-  { key: 'asia', labelKey: 'components.liveNews.regionAsia', channelIds: ['tbs-news', 'ann-news', 'ntv-news', 'cti-news', 'wion', 'ndtv', 'cna-asia', 'nhk-world', 'arirang-news', 'india-today', 'abp-news'] },
+  { key: 'asia', labelKey: 'components.liveNews.regionAsia', channelIds: ['tbs-news', 'ann-news', 'ntv-news', 'cti-news', 'wion', 'ndtv', 'cna-asia', 'cgtn', 'cctv-13', 'nhk-world', 'arirang-news', 'india-today', 'abp-news'] },
   { key: 'me', labelKey: 'components.liveNews.regionMiddleEast', channelIds: ['alarabiya', 'aljazeera', 'al-hadath', 'sky-news-arabia', 'trt-world', 'iran-intl', 'cgtn-arabic', 'kan-11', 'i24-news', 'asharq-news', 'aljazeera-arabic', 'rudaw'] },
   { key: 'africa', labelKey: 'components.liveNews.regionAfrica', channelIds: ['africanews', 'channels-tv', 'ktn-news', 'enca', 'sabc-news', 'arise-news'] },
   { key: 'oc', labelKey: 'components.liveNews.regionOceania', channelIds: ['abc-news-au'] },

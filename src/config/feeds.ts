@@ -1187,6 +1187,7 @@ const CHINA_FEEDS: Record<string, Feed[]> = {
     { name: 'China Stock Market', url: rss('https://news.google.com/rss/search?q=(CSI+300+OR+Shanghai+Composite+OR+Hang+Seng+OR+A-shares+OR+H-shares)+when:1d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'SCMP Markets', url: rss('https://news.google.com/rss/search?q=site:scmp.com+(markets+OR+stocks+OR+finance)+when:1d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Caixin Markets', url: rss('https://news.google.com/rss/search?q=site:caixinglobal.com+(markets+OR+stocks)+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'CLS (财联社)', url: rss('https://news.google.com/rss/search?q=site:cls.cn+when:1d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans'), lang: 'zh' },
     ...(FINANCE_FEEDS['markets'] ?? []),
   ],
   centralbanks: [
